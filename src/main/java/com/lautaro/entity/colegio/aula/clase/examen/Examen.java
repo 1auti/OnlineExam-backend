@@ -52,12 +52,10 @@ public class Examen {
 
     //Fecha del examen
     @NotNull
-    private LocalDate fechaExamen;
+    private LocalDateTime fechaExamen;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "estudiante_id")
-    @JsonIgnore
-    private Estudiante estudiante;
+    @ManyToMany(mappedBy = "examenes")
+    private List<Estudiante> estudiantes = new ArrayList<>();
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "clase_id")

@@ -43,7 +43,6 @@ public class Aula {
     private Modalidad modalidad;
 
     @Positive
-    @Max(30)
     @Min(value = 1, message = "La capacidad máxima debe ser al menos 1")
     private int capacidadMaxima;
     @NotNull(message = "El año no puede ser nulo")

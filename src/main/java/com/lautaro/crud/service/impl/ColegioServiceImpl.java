@@ -91,7 +91,7 @@ public class ColegioServiceImpl implements ColegioService {
     @Override
     public void removerEstudiante(Integer colegioId, Long estudianteCardId) {
         Colegio colegio = buscarColegioPorId(colegioId);
-        Estudiante estudiante = estudianteRepository.findByCardId(estudianteCardId)
+        Estudiante estudiante = estudianteRepository.findByCardIdAndColegioId(estudianteCardId,colegioId)
                 .orElseThrow(() -> new EstudianteNotFoundException(estudianteCardId));
         colegio.getEstudiantes().remove(estudiante);
         estudiante.setColegio(null);
@@ -111,7 +111,7 @@ public class ColegioServiceImpl implements ColegioService {
     public void removerAula(Integer colegioId, Integer aulaId) {
         Colegio colegio = buscarColegioPorId(colegioId);
         Aula aula = aulaRepository.findById(aulaId)
-                .orElseThrow(() -> new AulaNotFoundException(aulaId));
+                .orElseThrow(AulaNotFoundException::new);
         colegio.getAulas().remove(aula);
         aula.setColegio(null);
         colegioRepository.save(colegio);
@@ -127,7 +127,7 @@ public class ColegioServiceImpl implements ColegioService {
     @Override
     public void actualizarPromedioEstudiante(Integer colegioId, Long estudianteCardId, double promedioAnterior, double promedioNuevo) {
         Colegio colegio = buscarColegioPorId(colegioId);
-        Estudiante estudiante = estudianteRepository.findByCardId(estudianteCardId)
+        Estudiante estudiante = estudianteRepository.findByCardIdAndColegioId(estudianteCardId,colegioId)
                 .orElseThrow(() -> new EstudianteNotFoundException(estudianteCardId));
         colegio.actualizarPromedio(promedioAnterior, promedioNuevo);
         estudiante.setPromedio(promedioNuevo);

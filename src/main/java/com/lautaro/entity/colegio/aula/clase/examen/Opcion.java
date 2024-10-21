@@ -1,10 +1,8 @@
 package com.lautaro.entity.colegio.aula.clase.examen;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
@@ -13,7 +11,8 @@ import java.time.LocalDateTime;
 
 @Entity
 @Table(name = "opciones")
-@Data
+@Getter
+@Setter
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
@@ -30,6 +29,7 @@ public class Opcion {
 
     @ManyToOne
     @JoinColumn(name = "ejercicio_id")
+    @JsonIgnore
     private Ejercicio ejercicio;
 
     @CreatedDate

@@ -1,6 +1,8 @@
 package com.lautaro.crud.service;
 
 
+import com.lautaro.crud.dto.ProfesorDto;
+import com.lautaro.entity.colegio.Colegio;
 import com.lautaro.entity.colegio.aula.clase.Clase;
 import com.lautaro.entity.persona.profesor.Profesor;
 import jakarta.persistence.criteria.CriteriaBuilder;
@@ -11,12 +13,12 @@ import java.util.Map;
 
 public interface ProfesorService {
 
-    Profesor crearProfesor(Profesor profesor);
+    Profesor crearProfesor(ProfesorDto profesor);
     Profesor buscarProfesorPorId(Integer id);
     List<Profesor> buscarTodosProfesores();
     Profesor actualizarProfesor(Profesor profesor);
+    List<Profesor> trarProfesoresPorColegio(Colegio colegio);
     void eliminarProfesor(Integer id);
-
     void asignarClase(Integer profesorId, Integer claseId);
     void removerClase(Integer profesorId, Integer claseId);
     List<Clase> buscarClasesDeProfesor(Integer profesorId);

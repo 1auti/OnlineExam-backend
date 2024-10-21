@@ -5,7 +5,7 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 
 @ResponseStatus(HttpStatus.NOT_FOUND)
 public class ProfesorNotFoundException extends RuntimeException {
-    public ProfesorNotFoundException(Integer id) {
-        super("No se encontró el profesor con id: " + id);
+    public ProfesorNotFoundException(String mensaje) {
+        super(mensaje);
     }
 }

@@ -1,5 +1,6 @@
 package com.lautaro.crud.controller;
 
+import com.lautaro.crud.dto.ClaseDto;
 import com.lautaro.crud.service.ClaseService;
 import com.lautaro.entity.colegio.aula.clase.Clase;
 import com.lautaro.entity.colegio.aula.clase.examen.Examen;
@@ -20,7 +21,7 @@ public class ClaseController {
     private final ClaseService claseService;
 
     @PostMapping
-    public ResponseEntity<Clase> crearClase(@RequestBody Clase clase) {
+    public ResponseEntity<Clase> crearClase(@RequestBody ClaseDto clase) {
         return ResponseEntity.status(HttpStatus.CREATED).body(claseService.crearClase(clase));
     }
 
@@ -47,18 +48,6 @@ public class ClaseController {
         return ResponseEntity.noContent().build();
     }
 
-    @PostMapping("/{claseId}/estudiantes/{estudianteId}")
-    public ResponseEntity<Void> asignarEstudianteAClase(@PathVariable Integer claseId, @PathVariable Integer estudianteId) {
-        claseService.asignarEstudianteAClase(claseId, estudianteId);
-        return ResponseEntity.ok().build();
-    }
-
-    @DeleteMapping("/{claseId}/estudiantes/{estudianteId}")
-    public ResponseEntity<Void> removerEstudianteDeClase(@PathVariable Integer claseId, @PathVariable Integer estudianteId) {
-        claseService.removerEstudianteDeClase(claseId, estudianteId);
-        return ResponseEntity.ok().build();
-    }
-
     @PostMapping("/{claseId}/profesores/{profesorId}")
     public ResponseEntity<Void> asignarProfesorAClase(@PathVariable Integer claseId, @PathVariable Integer profesorId) {
         claseService.asignarProfesorAClase(claseId, profesorId);
@@ -74,12 +63,6 @@ public class ClaseController {
     @DeleteMapping("/{claseId}/examenes/{examenId}")
     public ResponseEntity<Void> removerExamenDeClase(@PathVariable Integer claseId, @PathVariable Integer examenId) {
         claseService.removerExamenDeClase(claseId, examenId);
-        return ResponseEntity.ok().build();
-    }
-
-    @PostMapping("/{claseId}/calcular-promedio")
-    public ResponseEntity<Void> calcularPromedioClase(@PathVariable Integer claseId) {
-        claseService.calcularPromedioClase(claseId);
         return ResponseEntity.ok().build();
     }
 

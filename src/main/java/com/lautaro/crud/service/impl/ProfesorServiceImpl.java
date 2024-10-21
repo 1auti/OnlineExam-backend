@@ -1,12 +1,20 @@
 package com.lautaro.crud.service.impl;
 
+import com.lautaro.crud.dto.ProfesorDto;
 import com.lautaro.crud.service.ProfesorService;
+import com.lautaro.entity.colegio.Colegio;
+import com.lautaro.entity.colegio.ColegioRepository;
 import com.lautaro.entity.colegio.aula.clase.Clase;
 import com.lautaro.entity.colegio.aula.clase.ClaseRepository;
 import com.lautaro.entity.persona.profesor.Profesor;
 import com.lautaro.entity.persona.profesor.ProfesorRepository;
+import com.lautaro.entity.user.User;
+import com.lautaro.entity.user.UserRepository;
 import com.lautaro.exception.clase.ClaseNotFoundException;
+import com.lautaro.exception.colegio.ColegioNotFoundNombreException;
 import com.lautaro.exception.profesor.ProfesorNotFoundException;
+import com.lautaro.exception.user.UserNotFoundException;
+import com.lautaro.entity.mapper.ProfesorMapper;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -24,17 +32,37 @@ public class ProfesorServiceImpl implements ProfesorService {
 
     private final ProfesorRepository profesorRepository;
     private final ClaseRepository claseRepository;
+    private final UserRepository userRepository;
+    private final ColegioRepository colegioRepository;
+
 
 
     @Override
-    public Profesor crearProfesor(Profesor profesor) {
-        return profesorRepository.save(profesor);
+    public Profesor crearProfesor(ProfesorDto profesor) {
+
+        User user = userRepository.findByEmail(profesor.getEmail())
+                .orElseThrow(() -> new UserNotFoundException("Usuario no encontrado con email: " + profesor.getEmail()));
+
+        Colegio colegio = colegioRepository.findByNombre(profesor.getNombreColegio())
+                .orElseThrow(()-> new ColegioNotFoundNombreException("Colegio no fue encontrado" + profesor.getNombreColegio()));
+
+        Profesor nuevoProfesor = ProfesorMapper.toEntity(profesor);
+        nuevoProfesor.setUser(user);
+        nuevoProfesor.setColegio(colegio);
+        colegio.getProfesores().add(nuevoProfesor);
+
+        Profesor profesorGuardado = profesorRepository.save(nuevoProfesor);
+        user = userRepository.save(user);
+        colegio = colegioRepository.save(colegio);
+
+        return profesorGuardado;
+
     }
 
     @Override
     public Profesor buscarProfesorPorId(Integer id) {
         return profesorRepository.findById(id)
-                .orElseThrow(() -> new ProfesorNotFoundException(id));
+                .orElseThrow(() -> new ProfesorNotFoundException("El profesor no fue encontrado" + id));
     }
 
     @Override
@@ -45,15 +73,20 @@ public class ProfesorServiceImpl implements ProfesorService {
     @Override
     public Profesor actualizarProfesor(Profesor profesor) {
         if (!profesorRepository.existsById(profesor.getId())) {
-            throw new ProfesorNotFoundException(profesor.getId());
+            throw new ProfesorNotFoundException("El profesor no fue encontrado" + profesor.getId());
         }
         return profesorRepository.save(profesor);
     }
 
     @Override
+    public List<Profesor> trarProfesoresPorColegio(Colegio colegio) {
+        return profesorRepository.findByColegioId(colegio.getId());
+    }
+
+    @Override
     public void eliminarProfesor(Integer id) {
         if (!profesorRepository.existsById(id)) {
-            throw new ProfesorNotFoundException(id);
+            throw new ProfesorNotFoundException("El profesor no fue encontrado" + id);
         }
         profesorRepository.deleteById(id);
     }

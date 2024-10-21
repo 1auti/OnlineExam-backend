@@ -1,16 +1,25 @@
 package com.lautaro.crud.service.impl;
 
+import com.lautaro.crud.dto.ClaseDto;
 import com.lautaro.crud.service.ClaseService;
+import com.lautaro.entity.colegio.Colegio;
+import com.lautaro.entity.colegio.ColegioRepository;
+import com.lautaro.entity.colegio.aula.Aula;
+import com.lautaro.entity.colegio.aula.AulaRepository;
 import com.lautaro.entity.colegio.aula.clase.Clase;
 import com.lautaro.entity.colegio.aula.clase.ClaseRepository;
 import com.lautaro.entity.colegio.aula.clase.examen.Examen;
 import com.lautaro.entity.colegio.aula.clase.examen.ExamenRepository;
+import com.lautaro.entity.mapper.ClaseMapper;
 import com.lautaro.entity.persona.estudiante.Estudiante;
 import com.lautaro.entity.persona.estudiante.EstudianteRepository;
 import com.lautaro.entity.persona.profesor.Profesor;
 import com.lautaro.entity.persona.profesor.ProfesorRepository;
 import com.lautaro.exception.aula.AulaLlenaException;
 import com.lautaro.exception.ConflictoHorarioException;
+import com.lautaro.exception.aula.AulaNotFoundException;
+import com.lautaro.exception.colegio.ColegioNotFoundNombreException;
+import com.lautaro.exception.profesor.ProfesorNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -24,14 +33,39 @@ import java.util.Optional;
 @Transactional
 public class ClaseServiceImpl implements ClaseService {
 
-
     private final ClaseRepository claseRepository;
     private final ProfesorRepository profesorRepository;
     private final ExamenRepository examenRepository;
+    private final AulaRepository aulaRepository;
+    private final ColegioRepository colegioRepository;
 
     @Override
-    public Clase crearClase(Clase clase) {
-        return claseRepository.save(clase);
+    public Clase crearClase(ClaseDto clase) {
+        Colegio colegio = colegioRepository.findByNombre(clase.getAulaDto().getNombreColegio())
+                .orElseThrow(() -> new ColegioNotFoundNombreException(clase.getAulaDto().getNombreColegio()));
+
+        Aula aula = aulaRepository.findByColegioIdAndAnioAndGradoAndModalidad(colegio.getId(),clase.getAulaDto().getAnio(),
+                clase.getAulaDto().getGrado(),clase.getAulaDto().getModalidad())
+                .orElseThrow(() -> new AulaNotFoundException("El aula no fue encontrada"));
+
+        Profesor profesor = profesorRepository.findByEmail(clase.getEmailProfesor())
+                .orElseThrow( () -> new ProfesorNotFoundException("El email no fue encontrado"));
+
+
+        Clase nuevaClase = ClaseMapper.toEntity(clase);
+        nuevaClase.setAula(aula);
+        nuevaClase.setProfesor(profesor);
+
+        // Verificar conflictos de horario
+        if (verificarConflictoHorario(nuevaClase)) {
+            throw new ConflictoHorarioException("La clase no puede ser creada debido a un conflicto de horario en el aula");
+        }
+
+        //guardamos si no hay conflicto
+        Clase claseGuardada = claseRepository.save(nuevaClase);
+
+        return claseGuardada;
+
     }
 
     @Override
@@ -72,7 +106,19 @@ public class ClaseServiceImpl implements ClaseService {
                 .orElseThrow(() -> new RuntimeException("Profesor no encontrado con id: " + profesorId));
 
         clase.setProfesor(profesor);
-        claseRepository.save(clase);
+        clase = claseRepository.save(clase);
+    }
+
+    @Override
+    public void eliminarProfesorAClase(Integer claseId,Integer profesorId){
+
+        Clase clase = claseRepository.findById(claseId)
+                .orElseThrow(() -> new RuntimeException("Clase no fue encontrada: " + claseId));
+        Profesor profesor = profesorRepository.findById(profesorId)
+                .orElseThrow( () -> new RuntimeException("Profesor no fue encontrada" + profesorId));
+
+        clase.setProfesor(null);
+        clase = claseRepository.save(clase);
     }
 
     @Override
@@ -112,9 +158,15 @@ public class ClaseServiceImpl implements ClaseService {
 
     @Override
     public boolean verificarConflictoHorario(Clase nuevaClase) {
-        List<Clase> clasesExistentes = claseRepository.findByFechaClase(nuevaClase.getFechaClase());
-        return clasesExistentes.stream()
-                .anyMatch(clase -> clase.tieneConflictoHorario(nuevaClase));
+        List<Clase> clasesConConflicto = claseRepository.findClasesConConflictoHorarioPorAula(
+                nuevaClase.getAula().getId(),
+                nuevaClase.getFechaClase(),
+                nuevaClase.getHoraInicio(),
+                nuevaClase.getHoraFin()
+        );
+        return !clasesConConflicto.isEmpty();
     }
+
+
 
 }

@@ -13,7 +13,8 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class EstudianteDto {
+public class ProfesorDto {
+
     @NotBlank(message = "El nombre no puede estar vacío")
     @Size(min = 2, max = 50, message = "El nombre debe tener entre 2 y 50 caracteres")
     private String nombre;
@@ -29,6 +30,10 @@ public class EstudianteDto {
     private String email;
     @NotBlank(message = "La Edad no puede estar vacío")
     private Integer edad;
-
-    private AulaDto aulaDto;
+    @NotBlank(message = "El titulo no puede estar vacio")
+    private String titulo;
+    @NotBlank(message = "El departamento no puede estar vacio")
+    private String departamento;
+    @NotBlank(message = "El Nombre del Colegio no puede estar vacio")
+    private String nombreColegio;
 }

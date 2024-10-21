@@ -1,4 +1,4 @@
-package com.lautaro.mapper;
+package com.lautaro.entity.mapper;
 
 
 import com.lautaro.crud.dto.EstudianteDto;
@@ -11,10 +11,8 @@ public class EstudianteMapper {
         estudiante.setNombre(dto.getNombre());
         estudiante.setApellido(dto.getApellido());
         estudiante.setEdad(dto.getEdad());
-        estudiante.setCardId(dto.getCardId());
         estudiante.setTel(dto.getTel());
         estudiante.setEmail(dto.getEmail());
-
         return estudiante;
     }
 }

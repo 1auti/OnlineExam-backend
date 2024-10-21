@@ -1,16 +1,24 @@
 package com.lautaro.crud.service.impl;
 
+import com.lautaro.crud.dto.AulaDto;
 import com.lautaro.crud.service.AulasService;
+import com.lautaro.entity.colegio.Colegio;
+import com.lautaro.entity.colegio.ColegioRepository;
 import com.lautaro.entity.colegio.aula.Aula;
 import com.lautaro.entity.colegio.aula.AulaRepository;
 import com.lautaro.entity.colegio.aula.enums.Grado;
 import com.lautaro.entity.colegio.aula.enums.Modalidad;
+import com.lautaro.entity.mapper.AulaMapper;
+import com.lautaro.entity.persona.estudiante.Estudiante;
+import com.lautaro.exception.aula.AulaVaciaException;
+import com.lautaro.exception.colegio.ColegioNotFoundNombreException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 @Transactional
@@ -18,11 +26,27 @@ import java.util.Optional;
 public class AulasServiceImpl implements AulasService {
 
     private final AulaRepository aulaRepository;
+    private final ColegioRepository colegioRepository;
 
+    private static final Double PROMEDIO_INICIAL = 0.00;
+    private static final Integer RANK_INICIAL = null;
 
     @Override
-    public Aula crearAula(Aula aula) {
-        return aulaRepository.save(aula);
+    public Aula crearAula(AulaDto aula) {
+
+        Colegio colegio = colegioRepository.findByNombre(aula.getNombreColegio())
+                .orElseThrow(() -> new ColegioNotFoundNombreException(aula.getNombreColegio()));
+
+        Aula nuevaAula = AulaMapper.toEntity(aula);
+        nuevaAula.setRank(RANK_INICIAL);
+        nuevaAula.setPromedioClases(PROMEDIO_INICIAL);
+        nuevaAula.setColegio(colegio);
+        colegio.getAulas().add(nuevaAula);
+
+        Aula aulaGuardada = aulaRepository.save(nuevaAula);
+        colegioRepository.save(colegio);
+
+        return aulaGuardada;
     }
 
     @Override
@@ -85,4 +109,27 @@ public class AulasServiceImpl implements AulasService {
     public List<Aula> obtenerAulasPorColegio(Integer colegioId) {
         return aulaRepository.findByColegioId(colegioId);
     }
+
+    @Override
+    public List<Estudiante> buscarEstudiantePorAula(Aula aula) {
+        if (aula == null) {
+            throw new IllegalArgumentException("El aula no puede ser nula");
+        }
+
+        List<Estudiante> estudiantes = aula.getEstudiantes();
+
+        if (estudiantes.isEmpty()) {
+            throw new AulaVaciaException("El aula no puede estar vacía");
+        }
+
+        return estudiantes.stream()
+                .filter(estudiante ->
+                        estudiante.getAula().getAnio().equals(aula.getAnio()) &&
+                                estudiante.getAula().getGrado() == aula.getGrado() &&
+                                estudiante.getAula().getModalidad() == aula.getModalidad() &&
+                                estudiante.getAula().getColegio().equals(aula.getColegio())
+                )
+                .collect(Collectors.toList());
+    }
+
 }

@@ -1,5 +1,6 @@
 package com.lautaro.crud.service;
 
+import com.lautaro.crud.dto.EjercicioDto;
 import com.lautaro.entity.colegio.aula.clase.examen.Ejercicio;
 import com.lautaro.entity.colegio.aula.clase.examen.Opcion;
 import com.lautaro.entity.colegio.aula.clase.examen.enums.Dificultad;
@@ -10,7 +11,7 @@ import com.lautaro.exception.ejercicio.InvalidEjercicioException;
 import java.util.List;
 
 public interface EjercicioExamen {
-    Ejercicio crearEjercicio(Ejercicio ejercicio) throws InvalidEjercicioException;
+    Ejercicio crearEjercicio(EjercicioDto ejercicio) throws InvalidEjercicioException;
     Ejercicio obtenerEjercicioPorId(Integer id) throws EjercicioNotFoundException;
     List<Ejercicio> obtenerTodosLosEjercicios();
     Ejercicio actualizarEjercicio(Integer id, Ejercicio ejercicio) throws EjercicioNotFoundException, InvalidEjercicioException;

@@ -4,7 +4,6 @@ import com.lautaro.crud.dto.EstudianteDto;
 import com.lautaro.crud.service.EstudianteService;
 import com.lautaro.entity.colegio.Colegio;
 import com.lautaro.entity.colegio.aula.Aula;
-import com.lautaro.entity.colegio.aula.clase.Clase;
 import com.lautaro.entity.colegio.aula.clase.examen.Examen;
 import com.lautaro.entity.persona.estudiante.Estudiante;
 import lombok.RequiredArgsConstructor;
@@ -27,48 +26,59 @@ public class EstudianteController {
         return ResponseEntity.status(HttpStatus.CREATED).body(estudianteService.crearEstudiante(estudiante));
     }
 
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Void> eliminarEstudiante(@PathVariable Integer id) {
+        boolean eliminado = estudianteService.eliminarEstudiante(id);
+        return eliminado ? ResponseEntity.noContent().build() : ResponseEntity.notFound().build();
+    }
+
+    @PutMapping("/{colegioId}/{cardId}")
+    public ResponseEntity<Estudiante> actualizarEstudiante(@PathVariable Integer colegioId, @PathVariable Long cardId, @RequestBody EstudianteDto estudianteDto) {
+        return ResponseEntity.ok(estudianteService.actualizarEstudiante(cardId, estudianteDto));
+    }
+
     @GetMapping
     public ResponseEntity<List<Estudiante>> buscarEstudiantes() {
         return ResponseEntity.ok(estudianteService.buscarEstudiantes());
     }
 
-    @GetMapping("/{cardId}")
-    public ResponseEntity<Estudiante> buscarEstudiantePorCardId(@PathVariable Long cardId) {
-        return ResponseEntity.ok(estudianteService.buscarEstudiantePorCardId(cardId));
+    @GetMapping("/{colegioId}/{cardId}")
+    public ResponseEntity<Estudiante> buscarEstudiantePorCardId(@PathVariable Long cardId, @PathVariable Integer colegioId) {
+        return ResponseEntity.ok(estudianteService.buscarEstudiantePorCardId(cardId, colegioId));
     }
 
-    @PostMapping("/{cardId}/examenes")
-    public ResponseEntity<Void> agregarExamen(@PathVariable Long cardId, @RequestBody Examen examen) {
-        Estudiante estudiante = estudianteService.buscarEstudiantePorCardId(cardId);
+    @PostMapping("/{colegioId}/{cardId}/examenes")
+    public ResponseEntity<Void> agregarExamen(@PathVariable Long cardId, @PathVariable Integer colegioId, @RequestBody Examen examen) {
+        Estudiante estudiante = estudianteService.buscarEstudiantePorCardId(cardId, colegioId);
         estudianteService.agregarExamen(estudiante, examen);
         return ResponseEntity.noContent().build();
     }
 
-    @DeleteMapping("/{cardId}/examenes/{examenId}")
-    public ResponseEntity<Void> removerExamen(@PathVariable Long cardId, @PathVariable Integer examenId) {
-        Estudiante estudiante = estudianteService.buscarEstudiantePorCardId(cardId);
+    @DeleteMapping("/{colegioId}/{cardId}/examenes/{examenId}")
+    public ResponseEntity<Void> removerExamen(@PathVariable Long cardId, @PathVariable Integer colegioId, @PathVariable Integer examenId) {
+        Estudiante estudiante = estudianteService.buscarEstudiantePorCardId(cardId, colegioId);
         Examen examen = new Examen();
         examen.setId(examenId);
         estudianteService.removerExamen(estudiante, examen);
         return ResponseEntity.noContent().build();
     }
 
-    @GetMapping("/{cardId}/promedio-por-materia")
-    public ResponseEntity<Map<String, Double>> calcularPromedioPorMateria(@PathVariable Long cardId) {
-        Estudiante estudiante = estudianteService.buscarEstudiantePorCardId(cardId);
+    @GetMapping("/{colegioId}/{cardId}/promedio-por-materia")
+    public ResponseEntity<Map<String, Double>> calcularPromedioPorMateria(@PathVariable Long cardId, @PathVariable Integer colegioId) {
+        Estudiante estudiante = estudianteService.buscarEstudiantePorCardId(cardId, colegioId);
         return ResponseEntity.ok(estudianteService.calcularPromedioPorMateria(estudiante));
     }
 
-    @PostMapping("/{cardId}/matricular")
-    public ResponseEntity<Void> matricularEstudiante(@PathVariable Long cardId, @RequestBody Aula aula) {
-        Estudiante estudiante = estudianteService.buscarEstudiantePorCardId(cardId);
-        estudianteService.asignarEstudianteAula(estudiante,aula);
+    @PostMapping("/{colegioId}/{cardId}/matricular")
+    public ResponseEntity<Void> matricularEstudiante(@PathVariable Long cardId, @PathVariable Integer colegioId, @RequestBody Aula aula) {
+        Estudiante estudiante = estudianteService.buscarEstudiantePorCardId(cardId, colegioId);
+        estudianteService.asignarEstudianteAula(estudiante, aula);
         return ResponseEntity.noContent().build();
     }
 
-    @DeleteMapping("/{cardId}/dar-de-baja")
-    public ResponseEntity<Void> darDeBajaEstudiante(@PathVariable Long cardId) {
-        Estudiante estudiante = estudianteService.buscarEstudiantePorCardId(cardId);
+    @DeleteMapping("/{colegioId}/{cardId}/dar-de-baja")
+    public ResponseEntity<Void> darDeBajaEstudiante(@PathVariable Long cardId, @PathVariable Integer colegioId) {
+        Estudiante estudiante = estudianteService.buscarEstudiantePorCardId(cardId, colegioId);
         estudianteService.removerEstudianteDeAula(estudiante);
         return ResponseEntity.noContent().build();
     }
@@ -79,9 +89,9 @@ public class EstudianteController {
         return ResponseEntity.noContent().build();
     }
 
-    @GetMapping("/{cardId}/rendimiento-comparativo")
-    public ResponseEntity<Map<String, Double>> obtenerRendimientoComparativo(@PathVariable Long cardId) {
-        Estudiante estudiante = estudianteService.buscarEstudiantePorCardId(cardId);
+    @GetMapping("/{colegioId}/{cardId}/rendimiento-comparativo")
+    public ResponseEntity<Map<String, Double>> obtenerRendimientoComparativo(@PathVariable Long cardId, @PathVariable Integer colegioId) {
+        Estudiante estudiante = estudianteService.buscarEstudiantePorCardId(cardId, colegioId);
         return ResponseEntity.ok(estudianteService.obtenerRendimientoComparativo(estudiante));
     }
 

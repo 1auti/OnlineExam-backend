@@ -1,5 +1,6 @@
 package com.lautaro.crud.controller;
 
+import com.lautaro.crud.dto.ExamenDto;
 import com.lautaro.crud.service.ExamenService;
 import com.lautaro.entity.colegio.aula.clase.examen.Ejercicio;
 import com.lautaro.entity.colegio.aula.clase.examen.Examen;
@@ -20,7 +21,7 @@ public class ExamenController {
     private final ExamenService examenService;
 
     @PostMapping
-    public ResponseEntity<Examen> crearExamen(@RequestBody Examen examen) {
+    public ResponseEntity<Examen> crearExamen(@RequestBody ExamenDto examen) {
         return ResponseEntity.status(HttpStatus.CREATED).body(examenService.crearExamen(examen));
     }
 

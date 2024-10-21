@@ -8,6 +8,7 @@ import jakarta.persistence.*;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Entity
@@ -25,8 +26,7 @@ public class Profesor extends Persona {
 
     @OneToMany(mappedBy = "profesor", cascade = CascadeType.ALL)
     @JsonIgnore
-    private List<Clase> clases; // Relación uno a muchos
-
+    private List<Clase> clases = new ArrayList<>(); // Relación uno a muchos
 
     @ManyToOne
     @JoinColumn(name = "colegio_id")

@@ -1,5 +1,6 @@
 package com.lautaro.crud.service.impl;
 
+import com.lautaro.crud.dto.EjercicioDto;
 import com.lautaro.crud.service.EjercicioExamen;
 import com.lautaro.entity.colegio.aula.clase.examen.Ejercicio;
 import com.lautaro.entity.colegio.aula.clase.examen.EjercicioRepository;
@@ -7,6 +8,7 @@ import com.lautaro.entity.colegio.aula.clase.examen.Opcion;
 import com.lautaro.entity.colegio.aula.clase.examen.OpcionRepository;
 import com.lautaro.entity.colegio.aula.clase.examen.enums.Dificultad;
 import com.lautaro.entity.colegio.aula.clase.examen.enums.TipoEjercicio;
+import com.lautaro.entity.mapper.EjercicioMapper;
 import com.lautaro.exception.ejercicio.EjercicioNotFoundException;
 import com.lautaro.exception.ejercicio.InvalidEjercicioException;
 import lombok.RequiredArgsConstructor;
@@ -24,9 +26,9 @@ public class EjercicioServiceImpl implements EjercicioExamen {
     private final EjercicioRepository ejercicioRepository;
     private final OpcionRepository opcionRepository;
 
-    public Ejercicio crearEjercicio(Ejercicio ejercicio) throws InvalidEjercicioException {
-        validarEjercicio(ejercicio);
-        return ejercicioRepository.save(ejercicio);
+    public Ejercicio crearEjercicio(EjercicioDto ejercicio) throws InvalidEjercicioException {
+        Ejercicio ejercicio1 = EjercicioMapper.toEntity(ejercicio);
+        return  ejercicioRepository.save(ejercicio1);
     }
 
     @Override
@@ -67,9 +69,9 @@ public class EjercicioServiceImpl implements EjercicioExamen {
     @Transactional
     public Ejercicio agregarOpcionAEjercicio(Integer ejercicioId, Opcion opcion) throws EjercicioNotFoundException, InvalidEjercicioException {
         Ejercicio ejercicio = obtenerEjercicioPorId(ejercicioId);
-        opcion.setEjercicio(ejercicio);
-        ejercicio.getOpciones().add(opcion);
+        ejercicio.agregarOpcion(opcion);
         validarEjercicio(ejercicio);
+
         return ejercicioRepository.save(ejercicio);
     }
 

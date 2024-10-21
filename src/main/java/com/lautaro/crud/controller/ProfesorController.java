@@ -1,5 +1,6 @@
 package com.lautaro.crud.controller;
 
+import com.lautaro.crud.dto.ProfesorDto;
 import com.lautaro.crud.service.ProfesorService;
 import com.lautaro.entity.colegio.aula.clase.Clase;
 import com.lautaro.entity.persona.profesor.Profesor;
@@ -21,7 +22,7 @@ public class ProfesorController {
     private final ProfesorService profesorService;
 
     @PostMapping
-    public ResponseEntity<Profesor> crearProfesor(@RequestBody Profesor profesor) {
+    public ResponseEntity<Profesor> crearProfesor(@RequestBody ProfesorDto profesor) {
         return ResponseEntity.status(HttpStatus.CREATED).body(profesorService.crearProfesor(profesor));
     }
 

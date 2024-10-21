@@ -1,5 +1,6 @@
 package com.lautaro.crud.controller;
 
+import com.lautaro.crud.dto.AulaDto;
 import com.lautaro.crud.service.AulasService;
 import com.lautaro.entity.colegio.aula.Aula;
 import com.lautaro.entity.colegio.aula.enums.Grado;
@@ -19,7 +20,7 @@ public class AulasController {
     private final AulasService aulasService;
 
     @PostMapping
-    public ResponseEntity<Aula> crearAula(@RequestBody Aula aula) {
+    public ResponseEntity<Aula> crearAula(@RequestBody AulaDto aula) {
         return ResponseEntity.status(HttpStatus.CREATED).body(aulasService.crearAula(aula));
     }
 

@@ -18,12 +18,16 @@ public interface ClaseRepository extends JpaRepository<Clase,Integer> {
 
     List<Clase> findByAulaId(Integer aulaId);
 
-    @Query("SELECT c FROM Clase c WHERE c.fechaClase = :fecha AND " +
+    Clase findByMateriaAndFecha(String materia,LocalDate fecha);
+
+    @Query("SELECT c FROM Clase c WHERE c.aula.id = :aulaId AND c.fechaClase = :fecha AND " +
             "((c.horaInicio <= :horaInicio AND c.horaFin > :horaInicio) OR " +
             "(c.horaInicio < :horaFin AND c.horaFin >= :horaFin) OR " +
             "(c.horaInicio >= :horaInicio AND c.horaFin <= :horaFin))")
-    List<Clase> findClasesConConflictoHorario(@Param("fecha") LocalDate fecha,
-                                              @Param("horaInicio") LocalDateTime horaInicio,
-                                              @Param("horaFin") LocalDateTime horaFin);
-
+    List<Clase> findClasesConConflictoHorarioPorAula(@Param("aulaId") Integer aulaId,
+                                                     @Param("fecha") LocalDate fecha,
+                                                     @Param("horaInicio") LocalDateTime horaInicio,
+                                                     @Param("horaFin") LocalDateTime horaFin);
 }
+
+

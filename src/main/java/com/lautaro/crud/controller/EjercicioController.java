@@ -1,5 +1,6 @@
 package com.lautaro.crud.controller;
 
+import com.lautaro.crud.dto.EjercicioDto;
 import com.lautaro.crud.service.EjercicioExamen;
 import com.lautaro.entity.colegio.aula.clase.examen.Ejercicio;
 import com.lautaro.entity.colegio.aula.clase.examen.Opcion;
@@ -22,7 +23,7 @@ public class EjercicioController {
     private final EjercicioExamen ejercicioService;
 
     @PostMapping
-    public ResponseEntity<Ejercicio> crearEjercicio(@RequestBody Ejercicio ejercicio) throws InvalidEjercicioException {
+    public ResponseEntity<Ejercicio> crearEjercicio(@RequestBody EjercicioDto ejercicio) throws InvalidEjercicioException {
         return ResponseEntity.status(HttpStatus.CREATED).body(ejercicioService.crearEjercicio(ejercicio));
     }
 

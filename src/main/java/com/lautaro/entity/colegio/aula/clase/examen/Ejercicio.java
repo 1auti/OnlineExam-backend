@@ -59,4 +59,21 @@ public class Ejercicio {
     @Column(insertable = false)
     private LocalDateTime lastModifiedDate;
 
+
+    public void agregarOpcion(Opcion opcion){
+        opciones.add(opcion);
+        opcion.setEjercicio(this);
+        recalcularPuntajeObtenido();
+    }
+
+    private void recalcularPuntajeObtenido() {
+        double puntajeObtenido = 0;
+        for (Opcion opcion : opciones) {
+            if (opcion.isEsCorrecta()) {
+                puntajeObtenido += this.puntajeMaximo / opciones.stream().filter(Opcion::isEsCorrecta).count();
+            }
+        }
+        this.puntajeObtenido = puntajeObtenido;
+    }
+
 }

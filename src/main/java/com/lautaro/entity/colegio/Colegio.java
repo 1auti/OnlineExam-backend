@@ -35,6 +35,10 @@ public class Colegio {
     @Column(nullable = false, unique = true)
     private String nombre;
 
+    @NotBlank(message = "La direccion no puede estar vacia")
+    @Column(name = "direccion",unique = true )
+    private String direccion;
+
     @PositiveOrZero(message = "El promedio del colegio debe ser un número positivo o cero")
     private Double promedioColegio;
 

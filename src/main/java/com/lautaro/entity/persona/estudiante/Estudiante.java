@@ -51,4 +51,11 @@ public class Estudiante extends Persona {
     @OneToMany(mappedBy = "estudiante", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Examen> examenes = new ArrayList<>();
 
+
+    public void agregarExamen(Examen examen){
+        this.getExamenes().add(examen);
+        examen.getEstudiantes().add(this);
+    }
+
+
 }
