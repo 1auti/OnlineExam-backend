@@ -22,8 +22,7 @@ public class ExamenDto {
     private LocalDateTime fechaExamen;
     @NotBlank(message = "La clase no puede estar vacia")
     private ClaseDto clase;
-    @NotBlank(message = "Los estudiantes no pueden estar vacios")
-    private List<EstudianteDto> estudianteDtos;
+
 
 
 }

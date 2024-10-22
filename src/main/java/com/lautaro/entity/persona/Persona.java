@@ -1,5 +1,6 @@
 package com.lautaro.entity.persona;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.lautaro.entity.user.User;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Email;
@@ -33,6 +34,7 @@ public class Persona {
     private Sexo sexo;
     @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id", referencedColumnName = "id")
+    @JsonIgnore
     private User user;
     @Email
     @Column(unique = true, name = "email")

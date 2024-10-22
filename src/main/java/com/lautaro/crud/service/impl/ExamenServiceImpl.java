@@ -49,7 +49,7 @@ public class ExamenServiceImpl implements ExamenService {
     public Examen crearExamen(ExamenDto examen) {
 
         Aula aulaBuscar = AulaMapper.toEntity(examen.getClase().getAulaDto());
-        Colegio colegio = colegioRepository.findByNombre(aulaBuscar.getColegio().getNombre())
+        Colegio colegio = colegioRepository.findByNombre(examen.getClase().getAulaDto().getNombreColegio())
                 .orElseThrow(() -> new ColegioNotFoundNombreException(aulaBuscar.getColegio().getNombre()));
 
         Aula aula = aulaRepository.findByColegioIdAndAnioAndGradoAndModalidad(
@@ -61,7 +61,7 @@ public class ExamenServiceImpl implements ExamenService {
         Profesor profesor = profesorRepository.findById(examen.getProfesorId())
                 .orElseThrow(() -> new ProfesorNotFoundException("El profesor no fue encontrado"));
 
-        Clase clase = claseRepository.findByMateriaAndFecha(examen.getClase().getMateria(),examen.getClase().getFecha());
+        Clase clase = claseRepository.findByMateriaAndFechaClase(examen.getClase().getMateria(),examen.getClase().getFecha());
 
         List<Estudiante> estudiantes = aulasService.buscarEstudiantePorAula(aula);
 
@@ -127,6 +127,7 @@ public class ExamenServiceImpl implements ExamenService {
             throw new ExamenAlreadyGradedException("El examen ya ha sido calificado");
         }
         examen.calcularNota();
+        examen.EstaAprobado();
         examenRepository.save(examen);
     }
 
@@ -137,7 +138,7 @@ public class ExamenServiceImpl implements ExamenService {
 
     @Override
     public List<Examen> buscarExamenesPorEstudiante(Integer estudianteId) {
-        return examenRepository.findByEstudianteId(estudianteId);
+        return examenRepository.findByEstudiantes_Id(estudianteId);
     }
 
     @Override

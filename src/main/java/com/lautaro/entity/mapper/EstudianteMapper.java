@@ -13,6 +13,7 @@ public class EstudianteMapper {
         estudiante.setEdad(dto.getEdad());
         estudiante.setTel(dto.getTel());
         estudiante.setEmail(dto.getEmail());
+        estudiante.setSexo(dto.getSexo());
         return estudiante;
     }
 }

@@ -7,6 +7,7 @@ import lombok.NoArgsConstructor;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.LocalTime;
 
 @NoArgsConstructor
 @AllArgsConstructor
@@ -20,9 +21,9 @@ public class ClaseDto {
     @NotBlank(message = "El Email del profesor no puede estar vacio")
     private String emailProfesor;
     @NotBlank(message = "La Hora de inicio no puede estar vacia")
-    private LocalDateTime horaInicio;
+    private LocalTime horaInicio;
     @NotBlank(message = "La Hora de fin no puede estar vacia")
-    private LocalDateTime horaFin;
+    private LocalTime horaFin;
     @NotBlank(message = "La Fecha no puede estar vacia")
     private LocalDate fecha;
 

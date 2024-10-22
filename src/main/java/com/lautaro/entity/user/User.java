@@ -50,6 +50,7 @@
         private List<Role> roles;
         @OneToMany(mappedBy = "user")
         private List<Token> tokens;
+
         @OneToOne(mappedBy = "user", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
         private Persona persona;
 

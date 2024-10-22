@@ -34,11 +34,5 @@ public class OnlineExamApplication {
 		};
 	}
 
-	@PostConstruct
-	public void init() {
-		System.out.println("Zona horaria del sistema: " + TimeZone.getDefault().getID());
-		System.out.println("Hora actual del sistema (UTC): " + Instant.now());
-	}
-
 
 }

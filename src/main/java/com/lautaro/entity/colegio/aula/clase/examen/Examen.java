@@ -6,6 +6,8 @@ import com.lautaro.entity.colegio.aula.clase.examen.enums.Dificultad;
 import com.lautaro.entity.persona.estudiante.Estudiante;
 import com.lautaro.entity.persona.profesor.Profesor;
 import jakarta.persistence.*;
+import jakarta.validation.constraints.Max;
+import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.PositiveOrZero;
 import lombok.*;
@@ -19,16 +21,11 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Entity
-@Table(name = "examenes", indexes = {
-        @Index(name = "idx_examen_estudiante", columnList = "estudiante_id"),
-        @Index(name = "idx_examen_clase", columnList = "clase_id"),
-        @Index(name = "idx_examen_fecha", columnList = "fechaExamen")
-})
+@Table(name = "examenes")
 @Getter
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-@Builder
 @EntityListeners(AuditingEntityListener.class)
 public class Examen {
 
@@ -41,7 +38,11 @@ public class Examen {
     private Dificultad dificultad;
 
     @PositiveOrZero(message = "La nota debe ser un número positivo o cero")
+    @Max(10)
+    @Min(0)
     private Double nota;
+
+    private Boolean aprobado;
 
     @OneToMany(mappedBy = "examen", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Ejercicio> ejercicios = new ArrayList<>();
@@ -55,6 +56,7 @@ public class Examen {
     private LocalDateTime fechaExamen;
 
     @ManyToMany(mappedBy = "examenes")
+    @JsonIgnore
     private List<Estudiante> estudiantes = new ArrayList<>();
 
     @ManyToOne(fetch = FetchType.LAZY)
@@ -102,6 +104,14 @@ public class Examen {
     // Método para verificar si todos los ejercicios están calificados
     public boolean estaTotalmenteCalificado() {
         return ejercicios.stream().allMatch(e -> e.getPuntajeObtenido() != null);
+    }
+
+    public void EstaAprobado(){
+        if (nota >= 7){
+            aprobado = true;
+        }else{
+            aprobado = false;
+        }
     }
 
 }

@@ -193,8 +193,7 @@ public class EstudianteServiceImpl implements EstudianteService {
         if (estudiante == null || examen == null) {
             throw new IllegalArgumentException("El estudiante y el examen no pueden ser nulos");
         }
-        estudiante.getExamenes().add(examen);
-        examen.setEstudiante(estudiante);
+        estudiante.agregarExamen(examen);
         calcularPromedio(estudiante);
     }
 
@@ -207,7 +206,7 @@ public class EstudianteServiceImpl implements EstudianteService {
         if (!estudiante.getExamenes().remove(examen)) {
             throw new ExamenNotFoundException(examen.getId());
         }
-        examen.setEstudiante(null);
+        removerExamen(estudiante,examen);
         calcularPromedio(estudiante);
     }
 

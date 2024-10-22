@@ -20,6 +20,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
+import java.time.LocalTime;
 import java.time.temporal.ChronoUnit;
 import java.util.List;
 import java.util.Map;
@@ -138,7 +139,7 @@ public class ProfesorServiceImpl implements ProfesorService {
     }
 
     @Override
-    public boolean verificarDisponibilidad(Integer profesorId, LocalDateTime inicio, LocalDateTime fin) {
+    public boolean verificarDisponibilidad(Integer profesorId, LocalTime inicio, LocalTime fin) {
         Profesor profesor = buscarProfesorPorId(profesorId);
         return profesor.getClases().stream()
                 .noneMatch(c -> (c.getHoraInicio().isBefore(fin) && c.getHoraFin().isAfter(inicio)));

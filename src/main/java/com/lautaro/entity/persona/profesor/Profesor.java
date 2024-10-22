@@ -5,8 +5,7 @@ import com.lautaro.entity.colegio.aula.clase.Clase;
 import com.lautaro.entity.colegio.Colegio;
 import com.lautaro.entity.persona.Persona;
 import jakarta.persistence.*;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -16,7 +15,10 @@ import java.util.List;
         @Index(name = "idx_profesor_colegio", columnList = "colegio_id"),
         @Index(name = "idx_profesor_departamento", columnList = "departamento")
 })
-@Data
+@Getter
+@Setter
+@ToString(callSuper = true)
+@EqualsAndHashCode(callSuper = true)
 @NoArgsConstructor
 public class Profesor extends Persona {
 

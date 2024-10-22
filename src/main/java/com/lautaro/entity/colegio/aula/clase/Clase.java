@@ -17,6 +17,7 @@ import org.springframework.format.annotation.DateTimeFormat;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -31,7 +32,6 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 @EntityListeners(AuditingEntityListener.class)
-@Builder
 public class Clase {
 
     @Id
@@ -52,6 +52,7 @@ public class Clase {
     private Aula aula;
 
     @OneToMany(mappedBy = "clase", cascade = CascadeType.ALL, orphanRemoval = true)
+    @JsonIgnore
     private List<Examen> examenes = new ArrayList<>(); // Relación uno a muchos con Examen
 
     @NotNull(message = "La fecha de la clase no puede ser nula")
@@ -59,8 +60,8 @@ public class Clase {
     private LocalDate fechaClase;
 
     //Horarias de las clases
-    private LocalDateTime horaInicio;
-    private LocalDateTime horaFin;
+    private LocalTime horaInicio;
+    private LocalTime horaFin;
 
     @CreatedDate
     @Column(nullable = false, updatable = false)

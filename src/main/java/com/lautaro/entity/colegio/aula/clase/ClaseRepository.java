@@ -7,6 +7,7 @@ import org.springframework.stereotype.Repository;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.LocalTime;
 import java.util.List;
 
 @Repository
@@ -18,7 +19,7 @@ public interface ClaseRepository extends JpaRepository<Clase,Integer> {
 
     List<Clase> findByAulaId(Integer aulaId);
 
-    Clase findByMateriaAndFecha(String materia,LocalDate fecha);
+    Clase findByMateriaAndFechaClase(String materia,LocalDate fechaClase);
 
     @Query("SELECT c FROM Clase c WHERE c.aula.id = :aulaId AND c.fechaClase = :fecha AND " +
             "((c.horaInicio <= :horaInicio AND c.horaFin > :horaInicio) OR " +
@@ -26,8 +27,8 @@ public interface ClaseRepository extends JpaRepository<Clase,Integer> {
             "(c.horaInicio >= :horaInicio AND c.horaFin <= :horaFin))")
     List<Clase> findClasesConConflictoHorarioPorAula(@Param("aulaId") Integer aulaId,
                                                      @Param("fecha") LocalDate fecha,
-                                                     @Param("horaInicio") LocalDateTime horaInicio,
-                                                     @Param("horaFin") LocalDateTime horaFin);
+                                                     @Param("horaInicio") LocalTime horaInicio,
+                                                     @Param("horaFin") LocalTime horaFin);
 }
 
 

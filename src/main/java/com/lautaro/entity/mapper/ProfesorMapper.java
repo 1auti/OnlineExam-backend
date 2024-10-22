@@ -16,6 +16,7 @@ public class ProfesorMapper {
         profesor.setTel(profesorDto.getTel());
         profesor.setTitulo(profesorDto.getTitulo());
         profesor.setDepartamento(profesorDto.getDepartamento());
+        profesor.setSexo(profesorDto.getSexo());
 
         return profesor;
     }

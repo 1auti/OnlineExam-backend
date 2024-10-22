@@ -25,10 +25,10 @@ import java.util.List;
 @RequiredArgsConstructor
 public class ColegioServiceImpl implements ColegioService {
 
-    private ColegioRepository colegioRepository;
-    private ProfesorRepository profesorRepository;
-    private EstudianteRepository estudianteRepository;
-    private AulaRepository aulaRepository;
+    private final ColegioRepository colegioRepository;
+    private final ProfesorRepository profesorRepository;
+    private final EstudianteRepository estudianteRepository;
+    private final AulaRepository aulaRepository;
 
 
     @Override
@@ -74,7 +74,7 @@ public class ColegioServiceImpl implements ColegioService {
     public void removerProfesor(Integer colegioId, Integer profesorId) {
         Colegio colegio = buscarColegioPorId(colegioId);
         Profesor profesor = profesorRepository.findById(profesorId)
-                .orElseThrow(() -> new ProfesorNotFoundException(profesorId));
+                .orElseThrow(() -> new ProfesorNotFoundException("El profesor no fue encontrado" + profesorId));
         colegio.removeProfesor(profesor);
         colegioRepository.save(colegio);
     }
@@ -100,10 +100,11 @@ public class ColegioServiceImpl implements ColegioService {
     }
 
     @Override
-    public void agregarAula(Integer colegioId, Aula aula) {
+    public void agregarAula(Integer colegioId, Integer aulaId) {
         Colegio colegio = buscarColegioPorId(colegioId);
-        colegio.getAulas().add(aula);
-        aula.setColegio(colegio);
+        Aula aulaBuscar = aulaRepository.findById(aulaId).orElseThrow(()-> new AulaNotFoundException("El aula no fue encontrada"));
+        colegio.getAulas().add(aulaBuscar);
+        aulaBuscar.setColegio(colegio);
         colegioRepository.save(colegio);
     }
 
@@ -111,7 +112,7 @@ public class ColegioServiceImpl implements ColegioService {
     public void removerAula(Integer colegioId, Integer aulaId) {
         Colegio colegio = buscarColegioPorId(colegioId);
         Aula aula = aulaRepository.findById(aulaId)
-                .orElseThrow(AulaNotFoundException::new);
+                .orElseThrow(() -> new AulaNotFoundException("El aula no fue encontrada " + aulaId));
         colegio.getAulas().remove(aula);
         aula.setColegio(null);
         colegioRepository.save(colegio);

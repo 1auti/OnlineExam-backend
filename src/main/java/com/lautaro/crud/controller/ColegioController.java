@@ -69,9 +69,9 @@ public class ColegioController {
         return ResponseEntity.noContent().build();
     }
 
-    @PostMapping("/{colegioId}/aulas")
-    public ResponseEntity<Void> agregarAula(@PathVariable Integer colegioId, @RequestBody Aula aula) {
-        colegioService.agregarAula(colegioId, aula);
+    @PostMapping("/{colegioId}/{aulaId}")
+    public ResponseEntity<Void> agregarAula(@PathVariable Integer colegioId, @PathVariable Integer aulaId) {
+        colegioService.agregarAula(colegioId, aulaId);
         return ResponseEntity.noContent().build();
     }
 

@@ -11,6 +11,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDateTime;
+import java.time.LocalTime;
 import java.util.List;
 import java.util.Map;
 
@@ -77,8 +78,8 @@ public class ProfesorController {
     @GetMapping("/{profesorId}/verificar-disponibilidad")
     public ResponseEntity<Boolean> verificarDisponibilidad(
             @PathVariable Integer profesorId,
-            @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) LocalDateTime inicio,
-            @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) LocalDateTime fin) {
+            @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) LocalTime inicio,
+            @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) LocalTime fin) {
         return ResponseEntity.ok(profesorService.verificarDisponibilidad(profesorId, inicio, fin));
     }
 

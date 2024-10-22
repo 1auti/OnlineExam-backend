@@ -21,7 +21,7 @@ public interface ColegioService {
     void agregarEstudiante(Integer colegioId, Estudiante estudiante);
     void removerEstudiante(Integer colegioId, Long estudianteCardId);
 
-    void agregarAula(Integer colegioId, Aula aula);
+    void agregarAula(Integer colegioId, Integer aulaId);
     void removerAula(Integer colegioId, Integer aulaId);
 
     void actualizarEstadisticas(Integer colegioId);

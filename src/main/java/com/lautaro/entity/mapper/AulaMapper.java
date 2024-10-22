@@ -13,6 +13,7 @@ public class AulaMapper {
         nuevaAula.setCapacidadMaxima(aulaDto.getCapacidadMaxima());
         nuevaAula.setModalidad(aulaDto.getModalidad());
 
+
         return nuevaAula;
     }
 }

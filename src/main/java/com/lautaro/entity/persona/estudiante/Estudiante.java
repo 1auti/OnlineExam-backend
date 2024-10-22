@@ -19,9 +19,7 @@ import java.util.stream.Collectors;
 
 @Entity
 //Los índices de base de datos mejoran el rendimiento de las consultas. Se usan en columnas que se consultan frecuentemente
-@Table(name = "estudiantes", indexes = {
-        @Index(name = "idx_estudiante_colegio", columnList = "colegio_id")
-})
+@Table(name = "estudiantes")
 @Getter
 @Setter
 @NoArgsConstructor
@@ -48,7 +46,12 @@ public class Estudiante extends Persona {
     @JsonIgnore
     private Colegio colegio;
 
-    @OneToMany(mappedBy = "estudiante", cascade = CascadeType.ALL, orphanRemoval = true)
+    @ManyToMany
+    @JoinTable(
+            name = "estudiante_examen",
+            joinColumns = @JoinColumn(name = "estudiante_id"),
+            inverseJoinColumns = @JoinColumn(name = "examen_id")
+    )
     private List<Examen> examenes = new ArrayList<>();
 
 

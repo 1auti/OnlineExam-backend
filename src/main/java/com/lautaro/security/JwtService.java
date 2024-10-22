@@ -52,11 +52,6 @@ public class JwtService {
         Instant now = Instant.now();
         Instant expirationTime = now.plusMillis(expiration);
 
-        System.out.println("Generando token para usuario: " + userDetails.getUsername());
-        System.out.println("Hora actual (UTC): " + now);
-        System.out.println("Hora de expiración (UTC): " + expirationTime);
-        System.out.println("Duración del token (ms): " + expiration);
-
         String token = Jwts
                 .builder()
                 .setClaims(extraClaims)
@@ -67,16 +62,13 @@ public class JwtService {
                 .signWith(getSignInKey())
                 .compact();
 
-        System.out.println("Token generado: " + token);
+
         return token;
     }
 
     public boolean isTokenValid(String token, UserDetails userDetails) {
         final String username = extractUsername(token);
         Date expiration = extractExpiration(token);
-        System.out.println("Validando token - Usuario: " + username);
-        System.out.println("Fecha de expiración del token (UTC): " + expiration.toInstant());
-        System.out.println("Fecha actual (UTC): " + Instant.now());
         return (username.equals(userDetails.getUsername())) && !isTokenExpired(token);
     }
 
@@ -85,9 +77,6 @@ public class JwtService {
         Instant expiration = extractExpiration(token).toInstant();
         Instant now = Instant.now();
         boolean isExpired = expiration.isBefore(now.minusSeconds(clockSkewSeconds));
-        System.out.println("Fecha de expiración del token: " + expiration);
-        System.out.println("Fecha actual: " + now);
-        System.out.println("¿Token expirado?: " + isExpired);
         return isExpired;
     }
 
@@ -104,8 +93,6 @@ public class JwtService {
                     .parseClaimsJws(token)
                     .getBody();
         } catch (Exception e) {
-            System.out.println("Error al parsear el token: " + e.getMessage());
-            System.out.println("Token problemático: " + token);
             e.printStackTrace();
             throw e;
         }

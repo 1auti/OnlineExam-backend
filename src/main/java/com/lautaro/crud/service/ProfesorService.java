@@ -8,6 +8,7 @@ import com.lautaro.entity.persona.profesor.Profesor;
 import jakarta.persistence.criteria.CriteriaBuilder;
 
 import java.time.LocalDateTime;
+import java.time.LocalTime;
 import java.util.List;
 import java.util.Map;
 
@@ -25,6 +26,6 @@ public interface ProfesorService {
 
     int calcularCargaHoraria(Integer profesorId);
     Map<String, Integer> calcularCargaHorariaPorMateria(Integer profesorId);
-    boolean verificarDisponibilidad(Integer profesorId, LocalDateTime inicio, LocalDateTime fin);
+    boolean verificarDisponibilidad(Integer profesorId, LocalTime inicio, LocalTime fin);
     List<Profesor> buscarProfesoresPorMateria(String materia);
 }
