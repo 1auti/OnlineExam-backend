@@ -1,8 +1,9 @@
-package com.lautaro.entity.colegio.aula.clase.examen;
+package com.lautaro.entity.examen;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.lautaro.entity.colegio.aula.clase.examen.enums.Dificultad;
-import com.lautaro.entity.colegio.aula.clase.examen.enums.TipoEjercicio;
+import com.lautaro.common.BaseEntity;
+import com.lautaro.entity.examen.enums.Dificultad;
+import com.lautaro.entity.examen.enums.TipoEjercicio;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.PositiveOrZero;
 import lombok.AllArgsConstructor;
@@ -23,7 +24,7 @@ import java.util.List;
 @AllArgsConstructor
 @EntityListeners(AuditingEntityListener.class)
 @Builder
-public class Ejercicio {
+public class Ejercicio extends BaseEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -50,15 +51,6 @@ public class Ejercicio {
     @JoinColumn(name = "examen_id")
     @JsonIgnore
     private Examen examen; // Relación muchos a uno con Examen
-
-    @CreatedDate
-    @Column(nullable = false, updatable = false)
-    private LocalDateTime createdDate;
-
-    @LastModifiedDate
-    @Column(insertable = false)
-    private LocalDateTime lastModifiedDate;
-
 
     public void agregarOpcion(Opcion opcion){
         opciones.add(opcion);

@@ -1,8 +1,9 @@
 package com.lautaro.crud.service;
 
 import com.lautaro.crud.dto.ClaseDto;
-import com.lautaro.entity.colegio.aula.clase.Clase;
-import com.lautaro.entity.colegio.aula.clase.examen.Examen;
+import com.lautaro.entity.clase.Clase;
+import com.lautaro.entity.examen.Examen;
+import com.lautaro.entity.materia.Materia;
 
 import java.time.LocalDate;
 import java.util.List;
@@ -23,5 +24,6 @@ public interface ClaseService {
     List<Clase> buscarClasesPorProfesor(Integer profesorId);
     List<Clase> buscarClasesPorAula(Integer aulaId);
     boolean verificarConflictoHorario(Clase nuevaClase);
+    List<Clase> traerClasesPorMateria(Materia materia);
 
 }

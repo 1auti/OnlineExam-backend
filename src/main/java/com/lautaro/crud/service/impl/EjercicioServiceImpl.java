@@ -2,12 +2,12 @@ package com.lautaro.crud.service.impl;
 
 import com.lautaro.crud.dto.EjercicioDto;
 import com.lautaro.crud.service.EjercicioExamen;
-import com.lautaro.entity.colegio.aula.clase.examen.Ejercicio;
-import com.lautaro.entity.colegio.aula.clase.examen.EjercicioRepository;
-import com.lautaro.entity.colegio.aula.clase.examen.Opcion;
-import com.lautaro.entity.colegio.aula.clase.examen.OpcionRepository;
-import com.lautaro.entity.colegio.aula.clase.examen.enums.Dificultad;
-import com.lautaro.entity.colegio.aula.clase.examen.enums.TipoEjercicio;
+import com.lautaro.entity.examen.Ejercicio;
+import com.lautaro.entity.examen.EjercicioRepository;
+import com.lautaro.entity.examen.Opcion;
+import com.lautaro.entity.examen.OpcionRepository;
+import com.lautaro.entity.examen.enums.Dificultad;
+import com.lautaro.entity.examen.enums.TipoEjercicio;
 import com.lautaro.entity.mapper.EjercicioMapper;
 import com.lautaro.exception.ejercicio.EjercicioNotFoundException;
 import com.lautaro.exception.ejercicio.InvalidEjercicioException;

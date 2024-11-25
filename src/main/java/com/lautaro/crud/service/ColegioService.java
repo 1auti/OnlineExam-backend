@@ -1,7 +1,7 @@
 package com.lautaro.crud.service;
 
 import com.lautaro.entity.colegio.Colegio;
-import com.lautaro.entity.colegio.aula.Aula;
+import com.lautaro.entity.aula.Aula;
 import com.lautaro.entity.persona.estudiante.Estudiante;
 import com.lautaro.entity.persona.profesor.Profesor;
 

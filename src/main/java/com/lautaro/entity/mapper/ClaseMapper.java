@@ -1,10 +1,7 @@
 package com.lautaro.entity.mapper;
 
 import com.lautaro.crud.dto.ClaseDto;
-import com.lautaro.entity.colegio.aula.clase.Clase;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import com.lautaro.entity.clase.Clase;
 
 
 public class ClaseMapper {

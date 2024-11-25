@@ -4,16 +4,15 @@ import com.lautaro.crud.dto.EstudianteDto;
 import com.lautaro.crud.service.EstudianteService;
 import com.lautaro.entity.colegio.Colegio;
 import com.lautaro.entity.colegio.ColegioRepository;
-import com.lautaro.entity.colegio.aula.Aula;
-import com.lautaro.entity.colegio.aula.AulaRepository;
-import com.lautaro.entity.colegio.aula.clase.examen.Examen;
+import com.lautaro.entity.aula.Aula;
+import com.lautaro.entity.aula.AulaRepository;
+import com.lautaro.entity.examen.Examen;
 import com.lautaro.entity.persona.estudiante.Estudiante;
 import com.lautaro.entity.persona.estudiante.EstudianteRepository;
 import com.lautaro.entity.user.User;
 import com.lautaro.entity.user.UserRepository;
 import com.lautaro.exception.aula.AulaLlenaException;
 import com.lautaro.exception.aula.AulaNotFoundException;
-import com.lautaro.exception.colegio.ColegioNotFoundException;
 import com.lautaro.exception.colegio.ColegioNotFoundNombreException;
 import com.lautaro.exception.estudiante.EstudianteNotFoundException;
 import com.lautaro.exception.examen.ExamenNotFoundException;
@@ -215,10 +214,19 @@ public class EstudianteServiceImpl implements EstudianteService {
         if (estudiante == null) {
             throw new IllegalArgumentException("El estudiante no puede ser nulo");
         }
+
+        if (estudiante.getExamenes() == null || estudiante.getExamenes().isEmpty()) {
+            throw new IllegalArgumentException("El estudiante no tiene exámenes registrados");
+        }
+
         return estudiante.getExamenes().stream()
-                .collect(Collectors.groupingBy(e -> e.getClase().getMateria(),
-                        Collectors.averagingDouble(Examen::getNota)));
+                .filter(examen -> examen.getClase() != null && examen.getClase().getMateria() != null) // Validar datos nulos.
+                .collect(Collectors.groupingBy(
+                        examen -> examen.getClase().getMateria().getNombreMateria(), // Agrupar por nombre de materia.
+                        Collectors.averagingDouble(Examen::getNota) // Calcular promedio de notas.
+                ));
     }
+
 
     @Override
     public List<Estudiante> buscarEstudiantes() {
@@ -307,26 +315,37 @@ public class EstudianteServiceImpl implements EstudianteService {
                 .orElseThrow(() -> new EstudianteNotFoundException(cardId));
     }
 
+
     @Override
     public Map<String, Double> obtenerRendimientoComparativo(Estudiante estudiante) {
         if (estudiante == null) {
             throw new IllegalArgumentException("El estudiante no puede ser nulo");
         }
 
+        if (estudiante.getAula() == null || estudiante.getAula().getEstudiantes() == null) {
+            throw new IllegalArgumentException("El estudiante no pertenece a un aula o el aula no tiene estudiantes");
+        }
+
+        // Calcular los promedios del estudiante por materia
         Map<String, Double> promediosEstudiante = calcularPromedioPorMateria(estudiante);
+
+        // Calcular los promedios generales por materia en el aula
         Map<String, Double> promediosGenerales = estudiante.getAula().getEstudiantes().stream()
                 .flatMap(e -> e.getExamenes().stream())
+                .filter(examen -> examen.getClase() != null && examen.getClase().getMateria() != null) // Validar nulos
                 .collect(Collectors.groupingBy(
-                        e -> e.getClase().getMateria(),
-                        Collectors.averagingDouble(Examen::getNota)
+                        examen -> examen.getClase().getMateria().getNombreMateria(), // Agrupar por nombre de la materia
+                        Collectors.averagingDouble(Examen::getNota) // Promedio general de notas
                 ));
 
+        // Comparar los promedios del estudiante con los promedios generales
         return promediosEstudiante.entrySet().stream()
                 .collect(Collectors.toMap(
                         Map.Entry::getKey,
-                        entry -> entry.getValue() - promediosGenerales.getOrDefault(entry.getKey(), 0.0)
+                        entry -> entry.getValue() - promediosGenerales.getOrDefault(entry.getKey(), 0.0) // Diferencia
                 ));
     }
+
 
     @Override
     public List<Estudiante> buscarEstudiantesPorRendimiento(Colegio colegio, double promedioMinimo) {

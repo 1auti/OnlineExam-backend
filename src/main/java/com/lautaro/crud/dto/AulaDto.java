@@ -1,7 +1,7 @@
 package com.lautaro.crud.dto;
 
-import com.lautaro.entity.colegio.aula.enums.Grado;
-import com.lautaro.entity.colegio.aula.enums.Modalidad;
+import com.lautaro.entity.aula.enums.Grado;
+import com.lautaro.entity.aula.enums.Modalidad;
 import jakarta.validation.constraints.Max;
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotBlank;

@@ -1,7 +1,9 @@
 package com.lautaro.entity.colegio;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.lautaro.entity.colegio.aula.Aula;
+import com.lautaro.common.BaseEntity;
+import com.lautaro.entity.aula.Aula;
+import com.lautaro.entity.materia.Materia;
 import com.lautaro.entity.persona.estudiante.Estudiante;
 import com.lautaro.entity.persona.profesor.Profesor;
 import jakarta.persistence.*;
@@ -23,7 +25,7 @@ import java.util.*;
 @NoArgsConstructor
 @AllArgsConstructor
 @EntityListeners(AuditingEntityListener.class)
-public class Colegio {
+public class Colegio extends BaseEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -51,16 +53,11 @@ public class Colegio {
     @OneToMany(mappedBy = "colegio", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Aula> aulas = new ArrayList<>();
 
+    @OneToMany(mappedBy = "colegio", cascade = CascadeType.ALL,fetch = FetchType.LAZY)
+    private List<Materia> materias = new ArrayList<>();
+
     private double sumaPromedios = 0.0;
     private int contadorEstudiantes = 0;
-
-    @CreatedDate
-    @Column(nullable = false, updatable = false)
-    private LocalDateTime createdDate;
-
-    @LastModifiedDate
-    @Column(insertable = false)
-    private LocalDateTime lastModifiedDate;
 
 
     // Métodos helper para mantener la consistencia bidireccional

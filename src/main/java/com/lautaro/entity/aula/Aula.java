@@ -1,15 +1,15 @@
-package com.lautaro.entity.colegio.aula;
+package com.lautaro.entity.aula;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.lautaro.common.BaseEntity;
 import com.lautaro.entity.colegio.Colegio;
-import com.lautaro.entity.colegio.aula.clase.Clase;
-import com.lautaro.entity.colegio.aula.enums.Grado;
-import com.lautaro.entity.colegio.aula.enums.Modalidad;
+import com.lautaro.entity.clase.Clase;
+import com.lautaro.entity.aula.enums.Grado;
+import com.lautaro.entity.aula.enums.Modalidad;
 import com.lautaro.entity.persona.estudiante.Estudiante;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.*;
 import lombok.*;
-import org.apache.logging.log4j.util.Lazy;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
@@ -27,7 +27,7 @@ import java.util.stream.Collectors;
 @NoArgsConstructor
 @AllArgsConstructor
 @EntityListeners(AuditingEntityListener.class)
-public class Aula {
+public class Aula extends BaseEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -63,13 +63,7 @@ public class Aula {
     @PositiveOrZero(message = "El rank debe ser un número positivo o cero")
     private Integer rank;
 
-    @CreatedDate
-    @Column(nullable = false, updatable = false)
-    private LocalDateTime createdDate;
 
-    @LastModifiedDate
-    @Column(insertable = false)
-    private LocalDateTime lastModifiedDate;
 
     @OneToMany(mappedBy = "aula", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Estudiante> estudiantes = new ArrayList<>();

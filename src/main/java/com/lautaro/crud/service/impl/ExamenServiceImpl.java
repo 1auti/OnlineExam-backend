@@ -5,14 +5,14 @@ import com.lautaro.crud.service.AulasService;
 import com.lautaro.crud.service.ExamenService;
 import com.lautaro.entity.colegio.Colegio;
 import com.lautaro.entity.colegio.ColegioRepository;
-import com.lautaro.entity.colegio.aula.Aula;
-import com.lautaro.entity.colegio.aula.AulaRepository;
-import com.lautaro.entity.colegio.aula.clase.Clase;
-import com.lautaro.entity.colegio.aula.clase.ClaseRepository;
-import com.lautaro.entity.colegio.aula.clase.examen.Ejercicio;
-import com.lautaro.entity.colegio.aula.clase.examen.EjercicioRepository;
-import com.lautaro.entity.colegio.aula.clase.examen.Examen;
-import com.lautaro.entity.colegio.aula.clase.examen.ExamenRepository;
+import com.lautaro.entity.aula.Aula;
+import com.lautaro.entity.aula.AulaRepository;
+import com.lautaro.entity.clase.Clase;
+import com.lautaro.entity.clase.ClaseRepository;
+import com.lautaro.entity.examen.Ejercicio;
+import com.lautaro.entity.examen.EjercicioRepository;
+import com.lautaro.entity.examen.Examen;
+import com.lautaro.entity.examen.ExamenRepository;
 import com.lautaro.entity.mapper.AulaMapper;
 import com.lautaro.entity.mapper.ExamenMapper;
 import com.lautaro.entity.persona.estudiante.Estudiante;
@@ -69,7 +69,7 @@ public class ExamenServiceImpl implements ExamenService {
         estudiantes.forEach(estudiante ->
                 estudiante.agregarExamen(nuevoExamen));
         nuevoExamen.setClase(clase);
-        clase.addExamen(nuevoExamen);
+        clase.setExamen(nuevoExamen);
         nuevoExamen.setProfesor(profesor);
 
         return  examenRepository.save(nuevoExamen);

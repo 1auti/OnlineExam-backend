@@ -1,9 +1,7 @@
-package com.lautaro.entity.colegio.aula;
+package com.lautaro.entity.aula;
 
-import com.lautaro.entity.colegio.Colegio;
-import com.lautaro.entity.colegio.aula.enums.Grado;
-import com.lautaro.entity.colegio.aula.enums.Modalidad;
-import com.lautaro.entity.persona.estudiante.Estudiante;
+import com.lautaro.entity.aula.enums.Grado;
+import com.lautaro.entity.aula.enums.Modalidad;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 

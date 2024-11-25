@@ -1,6 +1,6 @@
 package com.lautaro.crud.dto;
 
-import com.lautaro.entity.colegio.aula.clase.examen.enums.TipoEjercicio;
+import com.lautaro.entity.examen.enums.TipoEjercicio;
 import jakarta.validation.constraints.NotBlank;
 import lombok.AllArgsConstructor;
 import lombok.Builder;

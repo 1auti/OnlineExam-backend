@@ -1,6 +1,7 @@
-package com.lautaro.entity.colegio.aula.clase.examen;
+package com.lautaro.entity.examen;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.lautaro.common.BaseEntity;
 import jakarta.persistence.*;
 import lombok.*;
 import org.springframework.data.annotation.CreatedDate;
@@ -17,7 +18,7 @@ import java.time.LocalDateTime;
 @AllArgsConstructor
 @Builder
 @EntityListeners(AuditingEntityListener.class)
-public class Opcion {
+public class Opcion extends BaseEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -32,12 +33,5 @@ public class Opcion {
     @JsonIgnore
     private Ejercicio ejercicio;
 
-    @CreatedDate
-    @Column(nullable = false, updatable = false)
-    private LocalDateTime createdDate;
-
-    @LastModifiedDate
-    @Column(insertable = false)
-    private LocalDateTime lastModifiedDate;
 
 }

@@ -1,4 +1,4 @@
-package com.lautaro.entity.colegio.aula.clase.examen.enums;
+package com.lautaro.entity.examen.enums;
 
 public enum Dificultad {
     FACIL,

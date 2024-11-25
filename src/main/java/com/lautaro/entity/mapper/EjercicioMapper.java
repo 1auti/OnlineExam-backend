@@ -1,7 +1,7 @@
 package com.lautaro.entity.mapper;
 
 import com.lautaro.crud.dto.EjercicioDto;
-import com.lautaro.entity.colegio.aula.clase.examen.Ejercicio;
+import com.lautaro.entity.examen.Ejercicio;
 
 public class EjercicioMapper {
 

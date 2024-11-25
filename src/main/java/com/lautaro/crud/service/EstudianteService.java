@@ -2,14 +2,12 @@ package com.lautaro.crud.service;
 
 import com.lautaro.crud.dto.EstudianteDto;
 import com.lautaro.entity.colegio.Colegio;
-import com.lautaro.entity.colegio.aula.Aula;
-import com.lautaro.entity.colegio.aula.clase.Clase;
-import com.lautaro.entity.colegio.aula.clase.examen.Examen;
+import com.lautaro.entity.aula.Aula;
+import com.lautaro.entity.examen.Examen;
 import com.lautaro.entity.persona.estudiante.Estudiante;
 
 import java.util.List;
 import java.util.Map;
-import java.util.Optional;
 
 public interface EstudianteService {
     Estudiante crearEstudiante(EstudianteDto estudianteDto);

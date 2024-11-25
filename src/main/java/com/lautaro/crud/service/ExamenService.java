@@ -1,8 +1,8 @@
 package com.lautaro.crud.service;
 
 import com.lautaro.crud.dto.ExamenDto;
-import com.lautaro.entity.colegio.aula.clase.examen.Ejercicio;
-import com.lautaro.entity.colegio.aula.clase.examen.Examen;
+import com.lautaro.entity.examen.Ejercicio;
+import com.lautaro.entity.examen.Examen;
 
 import java.time.LocalDate;
 import java.util.List;

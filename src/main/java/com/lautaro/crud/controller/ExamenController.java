@@ -2,8 +2,8 @@ package com.lautaro.crud.controller;
 
 import com.lautaro.crud.dto.ExamenDto;
 import com.lautaro.crud.service.ExamenService;
-import com.lautaro.entity.colegio.aula.clase.examen.Ejercicio;
-import com.lautaro.entity.colegio.aula.clase.examen.Examen;
+import com.lautaro.entity.examen.Ejercicio;
+import com.lautaro.entity.examen.Examen;
 import lombok.RequiredArgsConstructor;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.HttpStatus;

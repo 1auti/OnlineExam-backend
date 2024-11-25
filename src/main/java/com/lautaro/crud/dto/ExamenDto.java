@@ -1,12 +1,10 @@
 package com.lautaro.crud.dto;
 
-import com.lautaro.entity.colegio.aula.clase.examen.Ejercicio;
-import com.lautaro.entity.colegio.aula.clase.examen.enums.Dificultad;
+import com.lautaro.entity.examen.enums.Dificultad;
 import jakarta.validation.constraints.NotBlank;
 import lombok.*;
 
 import java.time.LocalDateTime;
-import java.util.List;
 
 @NoArgsConstructor
 @AllArgsConstructor

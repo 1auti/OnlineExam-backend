@@ -4,18 +4,16 @@ import com.lautaro.crud.dto.ClaseDto;
 import com.lautaro.crud.service.ClaseService;
 import com.lautaro.entity.colegio.Colegio;
 import com.lautaro.entity.colegio.ColegioRepository;
-import com.lautaro.entity.colegio.aula.Aula;
-import com.lautaro.entity.colegio.aula.AulaRepository;
-import com.lautaro.entity.colegio.aula.clase.Clase;
-import com.lautaro.entity.colegio.aula.clase.ClaseRepository;
-import com.lautaro.entity.colegio.aula.clase.examen.Examen;
-import com.lautaro.entity.colegio.aula.clase.examen.ExamenRepository;
+import com.lautaro.entity.aula.Aula;
+import com.lautaro.entity.aula.AulaRepository;
+import com.lautaro.entity.clase.Clase;
+import com.lautaro.entity.clase.ClaseRepository;
+import com.lautaro.entity.examen.Examen;
+import com.lautaro.entity.examen.ExamenRepository;
 import com.lautaro.entity.mapper.ClaseMapper;
-import com.lautaro.entity.persona.estudiante.Estudiante;
-import com.lautaro.entity.persona.estudiante.EstudianteRepository;
+import com.lautaro.entity.materia.Materia;
 import com.lautaro.entity.persona.profesor.Profesor;
 import com.lautaro.entity.persona.profesor.ProfesorRepository;
-import com.lautaro.exception.aula.AulaLlenaException;
 import com.lautaro.exception.ConflictoHorarioException;
 import com.lautaro.exception.aula.AulaNotFoundException;
 import com.lautaro.exception.colegio.ColegioNotFoundNombreException;
@@ -126,7 +124,7 @@ public class ClaseServiceImpl implements ClaseService {
         Clase clase = claseRepository.findById(claseId)
                 .orElseThrow(() -> new RuntimeException("Clase no encontrada con id: " + claseId));
 
-        clase.addExamen(examen);
+        clase.setExamen(examen);
         claseRepository.save(clase);
     }
 
@@ -137,7 +135,7 @@ public class ClaseServiceImpl implements ClaseService {
         Examen examen = examenRepository.findById(examenId)
                 .orElseThrow(() -> new RuntimeException("Examen no encontrado con id: " + examenId));
 
-        clase.removeExamen(examen);
+        clase.setExamen(null);
         claseRepository.save(clase);
     }
 
@@ -167,6 +165,10 @@ public class ClaseServiceImpl implements ClaseService {
         return !clasesConConflicto.isEmpty();
     }
 
+    @Override
+    public List<Clase> traerClasesPorMateria(Materia materia) {
+        return claseRepository.findAllByMateria(materia);
+    }
 
 
 }

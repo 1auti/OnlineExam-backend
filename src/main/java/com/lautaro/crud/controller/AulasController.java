@@ -2,9 +2,9 @@ package com.lautaro.crud.controller;
 
 import com.lautaro.crud.dto.AulaDto;
 import com.lautaro.crud.service.AulasService;
-import com.lautaro.entity.colegio.aula.Aula;
-import com.lautaro.entity.colegio.aula.enums.Grado;
-import com.lautaro.entity.colegio.aula.enums.Modalidad;
+import com.lautaro.entity.aula.Aula;
+import com.lautaro.entity.aula.enums.Grado;
+import com.lautaro.entity.aula.enums.Modalidad;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;

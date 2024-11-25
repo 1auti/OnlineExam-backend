@@ -2,7 +2,7 @@ package com.lautaro.crud.controller;
 
 import com.lautaro.crud.dto.ProfesorDto;
 import com.lautaro.crud.service.ProfesorService;
-import com.lautaro.entity.colegio.aula.clase.Clase;
+import com.lautaro.entity.clase.Clase;
 import com.lautaro.entity.persona.profesor.Profesor;
 import lombok.RequiredArgsConstructor;
 import org.springframework.format.annotation.DateTimeFormat;
@@ -10,7 +10,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.util.List;
 import java.util.Map;

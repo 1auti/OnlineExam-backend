@@ -1,6 +1,7 @@
 package com.lautaro.entity.persona;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.lautaro.common.BaseEntity;
 import com.lautaro.entity.user.User;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Email;
@@ -21,7 +22,7 @@ import java.time.LocalDateTime;
 @AllArgsConstructor
 @EntityListeners(AuditingEntityListener.class)
 @SuperBuilder
-public class Persona {
+public class Persona extends BaseEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -41,12 +42,5 @@ public class Persona {
     private String email;
     private Integer edad;
 
-    @CreatedDate
-    @Column(nullable = false, updatable = false)
-    private LocalDateTime createdDate;
-
-    @LastModifiedDate
-    @Column(insertable = false)
-    private LocalDateTime lastModifiedDate;
 
 }

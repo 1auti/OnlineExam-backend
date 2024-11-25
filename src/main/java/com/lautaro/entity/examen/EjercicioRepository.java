@@ -1,7 +1,7 @@
-package com.lautaro.entity.colegio.aula.clase.examen;
+package com.lautaro.entity.examen;
 
-import com.lautaro.entity.colegio.aula.clase.examen.enums.Dificultad;
-import com.lautaro.entity.colegio.aula.clase.examen.enums.TipoEjercicio;
+import com.lautaro.entity.examen.enums.Dificultad;
+import com.lautaro.entity.examen.enums.TipoEjercicio;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 

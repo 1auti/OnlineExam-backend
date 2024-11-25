@@ -1,9 +1,9 @@
 package com.lautaro.crud.service;
 
 import com.lautaro.crud.dto.AulaDto;
-import com.lautaro.entity.colegio.aula.Aula;
-import com.lautaro.entity.colegio.aula.enums.Grado;
-import com.lautaro.entity.colegio.aula.enums.Modalidad;
+import com.lautaro.entity.aula.Aula;
+import com.lautaro.entity.aula.enums.Grado;
+import com.lautaro.entity.aula.enums.Modalidad;
 import com.lautaro.entity.persona.estudiante.Estudiante;
 
 import java.util.List;

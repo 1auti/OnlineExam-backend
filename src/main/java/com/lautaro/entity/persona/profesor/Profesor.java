@@ -1,8 +1,9 @@
 package com.lautaro.entity.persona.profesor;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.lautaro.entity.colegio.aula.clase.Clase;
+import com.lautaro.entity.clase.Clase;
 import com.lautaro.entity.colegio.Colegio;
+import com.lautaro.entity.materia.Materia;
 import com.lautaro.entity.persona.Persona;
 import jakarta.persistence.*;
 import lombok.*;
@@ -35,6 +36,8 @@ public class Profesor extends Persona {
     @JsonIgnore
     private Colegio colegio; // Relación muchos a uno con Colegio
 
+    @OneToMany(mappedBy = "profesor",cascade = CascadeType.ALL,fetch = FetchType.LAZY)
+    private List<Materia> materias;
 
 
 

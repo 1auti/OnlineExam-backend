@@ -2,7 +2,7 @@ package com.lautaro.entity.mapper;
 
 
 import com.lautaro.crud.dto.AulaDto;
-import com.lautaro.entity.colegio.aula.Aula;
+import com.lautaro.entity.aula.Aula;
 
 public class AulaMapper {
 

@@ -1,7 +1,7 @@
 package com.lautaro.entity.mapper;
 
 import com.lautaro.crud.dto.OpcionDto;
-import com.lautaro.entity.colegio.aula.clase.examen.Opcion;
+import com.lautaro.entity.examen.Opcion;
 
 public class OpcionMapper {
 

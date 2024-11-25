@@ -1,8 +1,9 @@
-package com.lautaro.entity.colegio.aula.clase.examen;
+package com.lautaro.entity.examen;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.lautaro.entity.colegio.aula.clase.Clase;
-import com.lautaro.entity.colegio.aula.clase.examen.enums.Dificultad;
+import com.lautaro.common.BaseEntity;
+import com.lautaro.entity.clase.Clase;
+import com.lautaro.entity.examen.enums.Dificultad;
 import com.lautaro.entity.persona.estudiante.Estudiante;
 import com.lautaro.entity.persona.profesor.Profesor;
 import jakarta.persistence.*;
@@ -15,7 +16,6 @@ import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
@@ -27,7 +27,7 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 @EntityListeners(AuditingEntityListener.class)
-public class Examen {
+public class Examen extends BaseEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -59,18 +59,10 @@ public class Examen {
     @JsonIgnore
     private List<Estudiante> estudiantes = new ArrayList<>();
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "clase_id")
     @JsonIgnore
     private Clase clase;
-
-    @CreatedDate
-    @Column(nullable = false, updatable = false)
-    private LocalDateTime createdDate;
-
-    @LastModifiedDate
-    @Column(insertable = false)
-    private LocalDateTime lastModifiedDate;
 
     public void calcularNota() {
         if (ejercicios.isEmpty()) {
@@ -111,6 +103,16 @@ public class Examen {
             aprobado = true;
         }else{
             aprobado = false;
+        }
+    }
+
+    public void setClase(Clase clase) {
+        if (this.clase != null) {
+            this.clase.setExamen(null);
+        }
+        this.clase = clase;
+        if (clase != null) {
+            clase.setExamen(this);
         }
     }
 
